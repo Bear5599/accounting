@@ -1,0 +1,5 @@
+this program will have 3 options, 
+convert all files in a given directory into excell files
+    currently only works with csv
+convert all files that match a search term into excell files
+convert individual files into an excell file
