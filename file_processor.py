@@ -1,6 +1,4 @@
 import os
-accounting_files_dir = os.path.expanduser("~/Documents/accounting_files")
-
 class FileProcesser:
     def __init__(self, folder_path):
         self.folder_path = folder_path
