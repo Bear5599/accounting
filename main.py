@@ -3,12 +3,22 @@ import os
 
 accounting_files_dir = os.path.expanduser("~/Documents/accounting_files")
 
-def file_finder(directory):
-    file_names = []
-    for file in os.listdir(directory):
-        full_path = os.path.join(directory, file)
-        if os.path.isfile(full_path):
-            file_names.append(full_path)
-    print(file_names)
-    return file_names
+class FileProcesser:
+    def __init__(self, folder_path):
+        self.folder_path = folder_path
+        self.files = []
 
+    def get_files(self):
+        self.files = os.listdir(self.folder_path)
+
+    def full_path(self):
+        # Generate a list of full file paths
+        full_paths = []
+        for file in self.files:
+            full_paths.append(os.path.join(self.folder_path, file))
+        return full_paths
+
+
+file_processer = FileProcesser(accounting_files_dir)
+file_processer.get_files()
+print(file_processer.files)
