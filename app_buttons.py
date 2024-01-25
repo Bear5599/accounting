@@ -9,13 +9,14 @@ class FileProcessorButtons:
         self.root = tk.Tk()
         self.root.title("File Processor")
         self.button_maker = button_maker
+        self.file_process = FileProcessor()
 
         # Example of adding a button
         self.process_button = tk.Button(self.root, text="Process File", command=self.process_file)
         self.process_button.pack()
 
     def button_creator(self):
-        csv_files = FileProcessor(folder_path)
+        self.file_process
         
 
     def run(self):
