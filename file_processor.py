@@ -1,6 +1,8 @@
 import os
-import csv
 from openpyxl import Workbook
+import pandas
+
+accounting_folder = os.path.expanduser("~/Documents/accounting_files")
 
 class FileProcessor:
     def __init__(self, folder_path):
@@ -21,16 +23,9 @@ class FileProcessor:
         csv_files = self.full_path()
 
         for file in csv_files:
-            if file.endswith('.csv'):
-                wb = Workbook()
-                ws = wb.active
+            if file.endswith(".csv"):
+                pass
 
-                with open(file, 'r', encoding='utf-8') as f:
-                    reader = csv.reader(f)
-                    for row in reader:
-                        ws.append(row)
+fp_accnt_files = FileProcessor(accounting_folder)
 
-                excel_file = file.replace('.csv', '.xlsx')
-                wb.save(excel_file)
-
-                print(f"Converted {file} to {excel_file}")
+fp_accnt_files.csv_to_excel()
