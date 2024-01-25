@@ -1,8 +1,8 @@
 import tkinter as tk
-from file_processor import FileProcesser
+from file_processor import FileProcessor
 import os
 
-folder_path = os.path.expanduser("~/Documents/")
+folder_path = os.path.expanduser("~/Documents/accounting_files")
 
 class FileProcessorButtons:
     def __init__(self, button_maker):
@@ -15,7 +15,8 @@ class FileProcessorButtons:
         self.process_button.pack()
 
     def button_creator(self):
-        pass
+        csv_files = FileProcessor(folder_path)
+        
 
     def run(self):
         self.root.mainloop()

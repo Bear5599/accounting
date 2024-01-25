@@ -2,7 +2,7 @@ import os
 import csv
 from openpyxl import Workbook
 
-class FileProcesser:
+class FileProcessor:
     def __init__(self, folder_path):
         self.folder_path = folder_path
         self.files = []
