@@ -1,6 +1,6 @@
 import os
 
-file_path = os.path.expanduser("~/Documents/accounting_files/wellsfargo_breezy_bills_1-1-23-to-1-23-24.csv")
+file_path = os.path.expanduser("~/Documents/accounting_files/")
 user_input = str(input("Enter a search word for the file: "))
 def test_program(folder, search):
     results = []
