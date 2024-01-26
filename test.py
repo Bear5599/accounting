@@ -13,20 +13,21 @@ class FileProcessor:
         self.search_results = []
         self.all_csv_content = []
 
-    def get_files(self):
+    def get_file_names(self):
         # gets the files in a folder
         self.files = os.listdir(self.folder_path)
         return self.files
 
     def full_path(self):
         # appends the file names to the folder path
+        self.get_file_names()
         for file in self.files:
             self.full_file_paths.append(os.path.join(self.folder_path, file))
         return self.full_file_paths
 
     def get_csv(self):
         # checks if files are .csv then combines them into a list
-        self.get_files()
+        self.get_file_names()
         csv_files = self.full_path()
         for file in csv_files:
             if file.endswith(".csv"):
@@ -49,29 +50,30 @@ class FileProcessor:
 
     def combine_csvs_to_excel(self):
     # Step 1: Create a new Excel workbook
+        self.full_path()  # Make sure this is the correct function to populate self.full_file_paths
         workbook = Workbook()
         active_sheet = workbook.active
-        self.full_path()
+        sheet_created = False
 
         # Step 2: Iterate over the CSV files
         for file in self.full_file_paths:
             if file.endswith(".csv"):
-                # Create a new sheet for each CSV file
                 sheet_name = os.path.basename(file).replace('.csv', '')
-                if sheet_name == active_sheet.title:
+                if sheet_name == active_sheet.title and not sheet_created:
                     sheet = active_sheet
+                    sheet_created = True
                 else:
                     sheet = workbook.create_sheet(title=sheet_name)
+
                 with open(file, "r") as csv_file:
                     csv_reader = csv.reader(csv_file)
                     for row in csv_reader:
                         sheet.append(row)
 
-
+        # Save the workbook after processing all files
         workbook.save(filename=os.path.join(self.folder_path, "combined_csv_files.xlsx"))
 
 
-
-
-
+a_test = FileProcessor(accounting_folder)
+a_test.combine_csvs_to_excel()
 
