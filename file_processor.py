@@ -64,8 +64,8 @@ class FileProcessor:
                 sheet = the_workbook.create_sheet(title=search)
 
             for row in self.search_results:
-                sheet.append(row.split(','))  # Assuming each line is a comma-separated string
-
+                split_row = [element.strip() for element in row.split(',')]
+                sheet.append(split_row)
             self.search_results.clear()  # Clear the search results for the next iteration
 
         save_path = os.path.join(self.folder_path, "Searched_results.xlsx")

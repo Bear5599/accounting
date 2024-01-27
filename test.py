@@ -13,21 +13,20 @@ class FileProcessor:
         self.search_results = []
         self.all_csv_content = []
 
-    def get_file_names(self):
+    def get_files(self):
         # gets the files in a folder
         self.files = os.listdir(self.folder_path)
         return self.files
 
     def full_path(self):
         # appends the file names to the folder path
-        self.get_file_names()
         for file in self.files:
             self.full_file_paths.append(os.path.join(self.folder_path, file))
         return self.full_file_paths
 
     def get_csv(self):
         # checks if files are .csv then combines them into a list
-        self.get_file_names()
+        self.get_files()
         csv_files = self.full_path()
         for file in csv_files:
             if file.endswith(".csv"):
@@ -36,44 +35,68 @@ class FileProcessor:
                         self.all_csv_content.append(line)
         return self.all_csv_content
     
-    def search_all_files(self):
+    def search_all_files(self, search):
         self.get_csv()
-        search = input("Search for a word in this file: ")
         
         for lines in self.all_csv_content:
             if search.lower() in lines.lower():
                 self.search_results.append(lines)
         print(f"There are {len(self.search_results)} occurances of {search} in this file")
-        for items in self.search_results:
-            print(items)
+        # for items in self.search_results:
+            # print(items)
+        print(self.search_results)
         return self.search_results
+    
+    def search_to_excel(self):
+        the_workbook = Workbook()
+        the_workbook.remove(the_workbook.active)  # Remove the default sheet
+
+        keep_going = True
+        while keep_going:
+            search = input("Enter a search query (or type 'exit' to quit): ")
+            if search.lower() == 'exit':
+                keep_going = False
+
+            self.search_all_files(search)
+
+            if search in the_workbook.sheetnames:
+                sheet = the_workbook[search]
+            else:
+                sheet = the_workbook.create_sheet(title=search)
+
+            for row in self.search_results:
+                split_row = [element.strip() for element in row.split(',')]
+                sheet.append(split_row)
+            self.search_results.clear()  # Clear the search results for the next iteration
+
+        save_path = os.path.join(self.folder_path, "Searched_results.xlsx")
+        the_workbook.save(save_path)
+        print(f"Workbook saved to {save_path}")
+
 
     def combine_csvs_to_excel(self):
     # Step 1: Create a new Excel workbook
-        self.full_path()  # Make sure this is the correct function to populate self.full_file_paths
-        workbook = Workbook()
-        active_sheet = workbook.active
-        sheet_created = False
+        the_workbook = Workbook()
+        active_sheet = the_workbook.active
+        self.full_path()
 
         # Step 2: Iterate over the CSV files
         for file in self.full_file_paths:
             if file.endswith(".csv"):
+                # Create a new sheet for each CSV file
                 sheet_name = os.path.basename(file).replace('.csv', '')
-                if sheet_name == active_sheet.title and not sheet_created:
+                if sheet_name == active_sheet.title:
                     sheet = active_sheet
-                    sheet_created = True
                 else:
-                    sheet = workbook.create_sheet(title=sheet_name)
-
+                    sheet = the_workbook.create_sheet(title=sheet_name)
                 with open(file, "r") as csv_file:
                     csv_reader = csv.reader(csv_file)
                     for row in csv_reader:
                         sheet.append(row)
 
-        # Save the workbook after processing all files
-        workbook.save(filename=os.path.join(self.folder_path, "combined_csv_files.xlsx"))
+
+        the_workbook.save(filename=os.path.join(self.folder_path, "combined_csv_files.xlsx"))
 
 
-a_test = FileProcessor(accounting_folder)
-a_test.combine_csvs_to_excel()
-
+act_fld = FileProcessor(accounting_folder)
+act_fld.search_to_excel()
