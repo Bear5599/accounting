@@ -35,9 +35,8 @@ class FileProcessor:
                         self.all_csv_content.append(line)
         return self.all_csv_content
     
-    def search_all_files(self):
+    def search_all_files(self, search):
         self.get_csv()
-        search = input("Search for a word in this file: ")
         
         for lines in self.all_csv_content:
             if search.lower() in lines.lower():
@@ -46,11 +45,38 @@ class FileProcessor:
         for items in self.search_results:
             print(items)
         return self.search_results
+    
+    def search_to_excel(self):
+        the_workbook = Workbook()
+        the_workbook.remove(the_workbook.active)  # Remove the default sheet
+
+        keep_going = True
+        while keep_going:
+            search = input("Enter a search query (or type 'exit' to quit): ")
+            if search.lower() == 'exit':
+                keep_going = False
+
+            self.search_all_files(search)
+
+            if search in the_workbook.sheetnames:
+                sheet = the_workbook[search]
+            else:
+                sheet = the_workbook.create_sheet(title=search)
+
+            for row in self.search_results:
+                sheet.append(row.split(','))  # Assuming each line is a comma-separated string
+
+            self.search_results.clear()  # Clear the search results for the next iteration
+
+        save_path = os.path.join(self.folder_path, "Searched_results.xlsx")
+        the_workbook.save(save_path)
+        print(f"Workbook saved to {save_path}")
+
 
     def combine_csvs_to_excel(self):
     # Step 1: Create a new Excel workbook
-        workbook = Workbook()
-        active_sheet = workbook.active
+        the_workbook = Workbook()
+        active_sheet = the_workbook.active
         self.full_path()
 
         # Step 2: Iterate over the CSV files
@@ -61,13 +87,13 @@ class FileProcessor:
                 if sheet_name == active_sheet.title:
                     sheet = active_sheet
                 else:
-                    sheet = workbook.create_sheet(title=sheet_name)
+                    sheet = the_workbook.create_sheet(title=sheet_name)
                 with open(file, "r") as csv_file:
                     csv_reader = csv.reader(csv_file)
                     for row in csv_reader:
                         sheet.append(row)
 
 
-        workbook.save(filename=os.path.join(self.folder_path, "combined_csv_files.xlsx"))
+        the_workbook.save(filename=os.path.join(self.folder_path, "combined_csv_files.xlsx"))
 
 
