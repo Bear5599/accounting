@@ -6,19 +6,20 @@ folder_path = os.path.expanduser("~/Documents/accounting_files")
 
 # creates buttons for the app, using the commands in file_processor.py
 class FileProcessorButtons:
-    def __init__(self, button_maker):
+    def __init__(self):
         self.root = tk.Tk()
         self.root.title("File Processor")
-        self.button_maker = button_maker
-        self.file_process = FileProcessor(button_maker)
+        self.file_processor = FileProcessor(folder_path)
+        self.button_names = self.file_processor.get_names_without_ext()
 
         # Example of adding a button
-        self.process_button = tk.Button(self.root, text="Process File", command=self.process_file)
-        self.process_button.pack()
-
+        
     def button_creator(self):
-        self.file_process
+        pass
         
 
     def run(self):
         self.root.mainloop()
+
+my_folder = FileProcessorButtons()
+print(my_folder.button_names)

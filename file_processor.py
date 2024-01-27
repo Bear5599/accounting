@@ -9,6 +9,7 @@ class FileProcessor:
     def __init__(self, folder_path):
         self.folder_path = folder_path
         self.files = []
+        self.base_file_names = []
         self.full_file_paths = []
         self.search_results = []
         self.all_csv_content = []
@@ -17,6 +18,11 @@ class FileProcessor:
         # gets the files in a folder
         self.files = os.listdir(self.folder_path)
         return self.files
+    
+    def get_names_without_ext(self):
+        for files in self.folder_path:
+            self.base_file_names.append(os.path.basename(files))
+        return self.base_file_names
 
     def full_path(self):
         # appends the file names to the folder path

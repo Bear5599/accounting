@@ -56,7 +56,7 @@ class FileProcessor:
             search = input("Enter a search query (or type 'exit' to quit): ")
             if search.lower() == 'exit':
                 keep_going = False
-
+            
             self.search_all_files(search)
 
             if search in the_workbook.sheetnames:
