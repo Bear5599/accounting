@@ -14,15 +14,16 @@ class FileProcessorButtons:
 
         # Example of adding a button
         
-    def button_creator(self):
+    def first_buttons_creator(self):
         for names in self.button_names:
             csv_buttons = tk.Button(self.root, text=names)
             csv_buttons.pack()
         
 
     def run(self):
+        # this should do everything so the only command is run
         self.root.mainloop()
 
 my_folder = FileProcessorButtons()
-my_folder.button_creator()
+my_folder.first_buttons_creator()
 my_folder.run()
