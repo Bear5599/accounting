@@ -8,18 +8,21 @@ folder_path = os.path.expanduser("~/Documents/accounting_files")
 class FileProcessorButtons:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("File Processor")
+        self.root.title("CSV Converter app")
         self.file_processor = FileProcessor(folder_path)
         self.button_names = self.file_processor.get_names_without_ext()
 
         # Example of adding a button
         
     def button_creator(self):
-        pass
+        for names in self.button_names:
+            csv_buttons = tk.Button(self.root, text=names)
+            csv_buttons.pack()
         
 
     def run(self):
         self.root.mainloop()
 
 my_folder = FileProcessorButtons()
-print(my_folder.button_names)
+my_folder.button_creator()
+my_folder.run()
