@@ -1,6 +1,7 @@
 import tkinter as tk
 from file_processor import FileProcessor
 import os
+import time
 
 folder_path = os.path.expanduser("~/Documents/accounting_files")
 
@@ -11,6 +12,7 @@ class FileProcessorButtons:
         self.root.title("CSV Converter app")
         self.file_processor = FileProcessor(folder_path)
         self.button_names = self.file_processor.get_names_without_ext()
+        self.first_buttons = {}
 
         # Example of adding a button
         
@@ -18,6 +20,11 @@ class FileProcessorButtons:
         for names in self.button_names:
             csv_buttons = tk.Button(self.root, text=names)
             csv_buttons.pack()
+            self.first_buttons[names] = csv_buttons
+    
+    def hide_first_buttons(self):
+        for buttons in self.first_buttons.values():
+            buttons.pack_forget()
         
 
     def run(self):
