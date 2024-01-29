@@ -13,6 +13,8 @@ class FileProcessor:
         self.full_file_paths = []
         self.search_results = []
         self.all_csv_content = []
+        self.list_of_csv_files = []
+        self.one_file_search = []
 
     def get_files(self):
         # gets the files in a folder
@@ -32,7 +34,7 @@ class FileProcessor:
             self.full_file_paths.append(os.path.join(self.folder_path, file))
         return self.full_file_paths
 
-    def get_csv(self):
+    def combine_all_to_csv(self):
         # checks if files are .csv then combines them into a list
         self.get_files()
         csv_files = self.full_path()
@@ -43,8 +45,20 @@ class FileProcessor:
                         self.all_csv_content.append(line)
         return self.all_csv_content
     
+    def list_of_csvs(self):
+        self.get_files()
+        csv_files = self.full_path()
+        for file_name in csv_files:
+            if file_name.endswith(".csv"):
+                with open(file_name, "r") as files:
+                    # readlines reads the entire files contents to turn into 1 item
+                    content = files.readlines()
+                    self.list_of_csv_files.append(content)
+        print(self.list_of_csv_files)
+        return self.list_of_csv_files
+                    
     def search_all_files(self, search):
-        self.get_csv()
+        self.combine_all_to_csv()
         
         for lines in self.all_csv_content:
             if search.lower() in lines.lower():
@@ -53,6 +67,12 @@ class FileProcessor:
         for items in self.search_results:
             print(items)
         return self.search_results
+    
+    def search_one_file(self, search):
+        for lines in search:
+            if lines.lower() in search.lower():
+                self.one_file_search.append(lines)
+        print(f"There are {len(lines)} occurances of {search} in this file")
     
     def search_to_excel(self):
         the_workbook = Workbook()
@@ -104,4 +124,5 @@ class FileProcessor:
 
         the_workbook.save(filename=os.path.join(self.folder_path, "combined_csv_files.xlsx"))
 
+my_files = FileProcessor(accounting_folder)
 

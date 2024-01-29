@@ -13,22 +13,35 @@ class FileProcessorButtons:
         self.file_processor = FileProcessor(folder_path)
         self.button_names = self.file_processor.get_names_without_ext()
         self.first_buttons = []
+        self.button_content = []
 
         # Example of adding a button
         
     def first_buttons_creator(self):
-        for names in self.button_names:
-            csv_buttons = tk.Button(self.root, text=names)
-            csv_buttons.pack()
-            self.first_buttons.append(names)
+        self.file_processor.list_of_csvs()
+        button_content = self.file_processor.list_of_csv_files
 
-    def hide_first_buttons(self):
+        for index, name in enumerate(self.button_names):
+            # Ensure button_content has the same number of items as button_names
+            if len(button_content) != len(self.button_names):
+                print("Error: Button names and content count do not match.")
+                return
+
+            content = button_content[index]
+            csv_button = tk.Button(self.root, text=name, command=lambda c=content: self.first_button_commands(c))
+            csv_button.pack()
+            self.first_buttons.append(csv_button)
+
+    def first_button_commands(self, content):
         for buttons in self.first_buttons:
             buttons.pack_forget()
-
-    def first_button_commands(self):
+        self.button_content.append(content)
+        self.file_processor.search_one_file()
+        return content 
+    
+    def second_button_commands(self):
+        # create a search bar that searches through the items in self.button_content
         pass
-        
 
     def run(self):
         # this should do everything so the only command is run
