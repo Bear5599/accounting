@@ -13,7 +13,7 @@ class FileProcessorButtons:
         self.file_processor = FileProcessor(folder_path)
         self.button_names = self.file_processor.get_names_without_ext()
         self.first_buttons = []
-        self.button_content = []
+        self.row_two_entry = tk.Entry(self.root)  # Store Entry as an instance variable
 
         # Example of adding a button
         
@@ -28,20 +28,24 @@ class FileProcessorButtons:
                 return
 
             content = button_content[index]
-            csv_button = tk.Button(self.root, text=name, command=lambda c=content: self.first_button_commands(c))
+            csv_button = tk.Button(self.root, text=name, command=lambda c=content: self.first_buttons_commands(c))
             csv_button.pack()
             self.first_buttons.append(csv_button)
 
-    def first_button_commands(self, content):
+    def first_buttons_commands(self, content):
         for buttons in self.first_buttons:
             buttons.pack_forget()
-        self.button_content.append(content)
-        self.file_processor.search_one_file()
-        return content 
-    
-    def second_button_commands(self):
-        # create a search bar that searches through the items in self.button_content
-        pass
+        self.file_processor.button_content.append(content)
+        self.second_buttons_creator()
+
+    def second_buttons_creator(self):
+        self.row_two_entry.pack()
+        row_one = tk.Button(self.root, text="Search for a term in the file", command=self.second_buttons_commands())
+        row_one.pack()
+
+    def second_buttons_commands(self):
+        text = self.row_two_entry.get()
+        self.file_processor.search_one_file(text)
 
     def run(self):
         # this should do everything so the only command is run

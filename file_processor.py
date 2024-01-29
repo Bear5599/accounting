@@ -15,6 +15,7 @@ class FileProcessor:
         self.all_csv_content = []
         self.list_of_csv_files = []
         self.one_file_search = []
+        self.button_content = []
 
     def get_files(self):
         # gets the files in a folder
@@ -69,10 +70,10 @@ class FileProcessor:
         return self.search_results
     
     def search_one_file(self, search):
-        for lines in search:
-            if lines.lower() in search.lower():
-                self.one_file_search.append(lines)
-        print(f"There are {len(lines)} occurances of {search} in this file")
+        for line in self.button_content:
+            if search.lower() in self.button_content:
+                self.one_file_search.append(line)
+        print(f"There are {len(search)} occurances of {line} in this file")
     
     def search_to_excel(self):
         the_workbook = Workbook()
