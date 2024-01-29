@@ -25,6 +25,9 @@ class FileProcessorButtons:
     def hide_first_buttons(self):
         for buttons in self.first_buttons:
             buttons.pack_forget()
+
+    def first_button_commands(self):
+        pass
         
 
     def run(self):
