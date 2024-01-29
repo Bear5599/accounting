@@ -14,6 +14,7 @@ class FileProcessorButtons:
         self.button_names = self.file_processor.get_names_without_ext()
         self.first_buttons = []
         self.row_two_entry = tk.Entry(self.root)  # Store Entry as an instance variable
+        self.row_two_entry.bind("<Return>", self.on_enter)
 
         # Example of adding a button
         
@@ -40,12 +41,17 @@ class FileProcessorButtons:
 
     def second_buttons_creator(self):
         self.row_two_entry.pack()
-        row_one = tk.Button(self.root, text="Search for a term in the file", command=self.second_buttons_commands())
+        row_one = tk.Button(self.root, text="Search for a term in the file", command=self.second_buttons_commands)
         row_one.pack()
 
     def second_buttons_commands(self):
         text = self.row_two_entry.get()
         self.file_processor.search_one_file(text)
+        print(self.file_processor.one_file_search)
+        self.row_two_entry.delete(0, tk.END)  # Clear the entry here
+
+    def on_enter(self, event=None):  # Optional event argument
+        self.row_two_entry.delete(0, tk.END)
 
     def run(self):
         # this should do everything so the only command is run
