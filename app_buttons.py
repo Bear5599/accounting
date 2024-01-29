@@ -1,5 +1,6 @@
 import tkinter as tk
 from file_processor import FileProcessor
+from functools import partial
 import os
 import time
 
@@ -17,21 +18,35 @@ class FileProcessorButtons:
         self.row_two_entry.bind("<Return>", self.on_enter)
 
         # Example of adding a button
-        
+
+    def button_command(self, key):
+        content = self.file_processor.file_dict[key]
+        # Perform actions with 'content'
+        print(f"Button pressed for key: {key}, Content: {(content)}")
+
     def first_buttons_creator(self):
-        self.file_processor.list_of_csvs()
-        button_content = self.file_processor.list_of_csv_files
-
-        for index, name in enumerate(self.button_names):
-            # Ensure button_content has the same number of items as button_names
-            if len(button_content) != len(self.button_names):
-                print("Error: Button names and content count do not match.")
-                return
-
-            content = button_content[index]
-            csv_button = tk.Button(self.root, text=name, command=lambda c=content: self.first_buttons_commands(c))
+        self.file_processor.file_scanner()
+        button_names = self.file_processor.file_dict
+        for names in button_names:
+            # Create a partial function with the current 'names' as argument
+            my_command = partial(self.button_command, names)
+            csv_button = tk.Button(self.root, text=names, command=my_command)
             csv_button.pack()
-            self.first_buttons.append(csv_button)
+
+    # def first_buttons_creator(self):
+    #     self.file_processor.list_of_csvs()
+    #     button_content = self.file_processor.list_of_csv_files
+
+    #     for index, name in enumerate(self.button_names):
+    #         # Ensure button_content has the same number of items as button_names
+    #         if len(button_content) != len(self.button_names):
+    #             print("Error: Button names and content count do not match.")
+    #             return
+
+    #         content = button_content[index]
+    #         csv_button = tk.Button(self.root, text=name, command=lambda c=content: self.first_buttons_commands(c))
+    #         csv_button.pack()
+    #         self.first_buttons.append(csv_button)
 
     def first_buttons_commands(self, content):
         for buttons in self.first_buttons:

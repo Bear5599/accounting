@@ -16,7 +16,7 @@ def file_scanner():
                 file_content = file.read()
                 file_dict[file_name_no_extension] = file_content
 
-    print(file_dict[0])
+    print(file_dict)
     return file_dict  # You might want to return this dictionary for further use
 
 file_scanner()

@@ -16,6 +16,7 @@ class FileProcessor:
         self.list_of_csv_files = []
         self.one_file_search = []
         self.button_content = []
+        self.file_dict = {}
 
     def get_files(self):
         # gets the files in a folder
@@ -34,6 +35,20 @@ class FileProcessor:
         for file in self.files:
             self.full_file_paths.append(os.path.join(self.folder_path, file))
         return self.full_file_paths
+    
+    def file_scanner(self):
+
+        my_folder = os.listdir(self.folder_path)
+        for item in my_folder:
+            if item.endswith(".csv"):
+                full_path = os.path.join(accounting_folder, item)
+                file_name_no_extension = os.path.splitext(item)[0]
+
+                with open(full_path, "r") as file:
+                    file_content = file.read()
+                    self.file_dict[file_name_no_extension] = file_content
+
+        return self.file_dict 
 
     def combine_all_to_csv(self):
         # checks if files are .csv then combines them into a list
