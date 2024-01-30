@@ -2,7 +2,6 @@ import tkinter as tk
 from file_processor import FileProcessor
 from functools import partial
 import os
-import time
 
 folder_path = os.path.expanduser("~/Documents/accounting_files")
 
@@ -22,8 +21,7 @@ class FileProcessorButtons:
     def button_command(self, key):
         content = self.file_processor.file_dict[key]
         # Perform actions with 'content'
-        print(f"Button pressed for key: {key}, Content: {(content)}")
-
+        return content
     def first_buttons_creator(self):
         self.file_processor.file_scanner()
         button_names = self.file_processor.file_dict
