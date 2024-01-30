@@ -19,9 +19,13 @@ class FileProcessorButtons:
         # Example of adding a button
 
     def button_command(self, key):
+        # When this function is called it creates the data from the file
+        # and puts it in file_processor.py to be muniplulated
         content = self.file_processor.file_dict[key]
-        # Perform actions with 'content'
-        return content
+        self.file_processor.button_content = content
+        for buttons in self.first_buttons:
+            buttons.pack_forget()
+        
     def first_buttons_creator(self):
         self.file_processor.file_scanner()
         button_names = self.file_processor.file_dict
@@ -30,27 +34,8 @@ class FileProcessorButtons:
             my_command = partial(self.button_command, names)
             csv_button = tk.Button(self.root, text=names, command=my_command)
             csv_button.pack()
+            self.first_buttons.append(csv_button)
 
-    # def first_buttons_creator(self):
-    #     self.file_processor.list_of_csvs()
-    #     button_content = self.file_processor.list_of_csv_files
-
-    #     for index, name in enumerate(self.button_names):
-    #         # Ensure button_content has the same number of items as button_names
-    #         if len(button_content) != len(self.button_names):
-    #             print("Error: Button names and content count do not match.")
-    #             return
-
-    #         content = button_content[index]
-    #         csv_button = tk.Button(self.root, text=name, command=lambda c=content: self.first_buttons_commands(c))
-    #         csv_button.pack()
-    #         self.first_buttons.append(csv_button)
-
-    def first_buttons_commands(self, content):
-        for buttons in self.first_buttons:
-            buttons.pack_forget()
-        self.file_processor.button_content.append(content)
-        self.second_buttons_creator()
 
     def second_buttons_creator(self):
         self.row_two_entry.pack()
