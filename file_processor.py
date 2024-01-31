@@ -88,7 +88,7 @@ class FileProcessor:
         for line in self.button_content:
             if search.lower() in self.button_content:
                 self.one_file_search.append(line)
-        print(f"There are {len(search)} occurances of items in this file")
+        print(f"There are {len(self.one_file_search)} occurances of {self.one_file_search} in this file")
     
     def search_to_excel(self):
         the_workbook = Workbook()
