@@ -44,6 +44,7 @@ class FileProcessorButtons:
 
     def second_buttons_commands(self):
         text = self.row_two_entry.get()
+        print(text)
         self.file_processor.search_one_file(text)
         
 
