@@ -15,17 +15,6 @@ class FileProcessorButtons:
         self.first_buttons = []
         self.row_two_entry = tk.Entry(self.root) 
 
-        
-
-    def button_command(self, key):
-        # When this function is called it creates the data from the file
-        # and puts it in file_processor.py to be muniplulated
-        content = self.file_processor.file_dict[key]
-        self.file_processor.button_content = content
-        for buttons in self.first_buttons:
-            buttons.pack_forget()
-        self.second_buttons_creator()
-        
     def first_buttons_creator(self):
         self.file_processor.file_scanner()
         button_names = self.file_processor.file_dict
@@ -36,6 +25,14 @@ class FileProcessorButtons:
             csv_button.pack()
             self.first_buttons.append(csv_button)
 
+    def button_command(self, key):
+        # When this function is called it creates the data from the file
+        # and puts it in file_processor.py to be muniplulated
+        content = self.file_processor.file_dict[key]
+        self.file_processor.button_content.append(content)
+        for buttons in self.first_buttons:
+            buttons.pack_forget()
+        self.second_buttons_creator()
 
     def second_buttons_creator(self):
         self.row_two_entry.pack()

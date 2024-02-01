@@ -84,11 +84,7 @@ class FileProcessor:
             print(items)
         return self.search_results
     
-    # def search_one_file(self, search):
-    #     for line in self.button_content:
-    #         if search.lower() in line.lower():
-    #             self.one_file_search.append(line)
-    #     print(f"There are {len(self.one_file_search)} occurances of {self.one_file_search} in this file")
+    
     def search_one_file(self, search):
         self.one_file_search = []  # Initialize an empty list to store matching lines
         for line in self.button_content:
