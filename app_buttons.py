@@ -9,7 +9,7 @@ folder_path = os.path.expanduser("~/Documents/accounting_files")
 class FileProcessorButtons:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("CSV Converter app")
+        self.root.title("Searching App")
         self.file_processor = FileProcessor(folder_path)
         self.button_names = self.file_processor.get_names_without_ext()
         self.first_buttons = []
