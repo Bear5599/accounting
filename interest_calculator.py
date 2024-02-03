@@ -1,10 +1,13 @@
 
-def interest_calc(principle):
-    principle = int(input("Enter a annual ammount: "))
-    percentage = 0.08
-    annual_loss = 100,000
+def interest_calc(cap, loss):
+    percentage = 1.08 #8%, can be changed for different results
     year = 0
-    for number in range(1, 10):
-        number = (principle + percentage) - annual_loss
+    for number in range(1, 11):
+        cap *= percentage
+        cap -= loss   
         year += 1
-        print(f"Annual total amount year {year} ")
+        print(f"Annual total amount year {year} is {cap:.2f} after {loss} is deducted")
+
+principle = int(input("Enter an initial investment: "))
+annual_loss = int(input("Enter an annual loss amount: "))
+interest_calc(principle, annual_loss)
