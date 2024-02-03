@@ -1,6 +1,5 @@
-
+percentage = 1.08 #8%, can be changed for different results
 def interest_calc(cap, loss):
-    percentage = 1.08 #8%, can be changed for different results
     year = 0
     for number in range(1, 11):
         cap *= percentage
