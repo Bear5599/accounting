@@ -3,6 +3,7 @@ initial_principal = int(input("Initial investment: "))
 annual_withdrawal = int(input("Yearly withdrawal: "))
 interest_rate = 0.08 #float(input("Interest rate (as a decimal, e.g., 0.08 for 8%): "))
 def inflation_fighter(principal, withdrawal, interest, inflation):
+    
     year = 0
 
     while principal > 0 and year < 100:  # Check until the principal depletes or reach 100 years
