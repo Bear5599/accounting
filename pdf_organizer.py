@@ -1,5 +1,5 @@
 import os
-import PyPDF4
+# import PyPDF4
 import tabula
 import warnings
 
@@ -60,22 +60,36 @@ class PdfOrganizer:
                     table_file.write(table.to_csv(index=False))
                     table_file.write("\n\n")  # Add spacing for readability between tables
 
-            
 
-    def pdf_to_text(self):
-        with open("pdf_text.txt", "a") as pdf_pages:  # Open the output file once, outside the loop
-            for pdf in self.full_file_paths:
-                with open(pdf, 'rb') as pdf_file:
-                    pdf_reader = PyPDF4.PdfFileReader(pdf_file)
-                    num_pages = pdf_reader.numPages
-                    
-                    for page_num in range(num_pages):
-                        page_obj = pdf_reader.getPage(page_num)
-                        text = page_obj.extractText()
-                        pdf_pages.write(text)  # Write the extracted text to the file
+    def txt_cleaner(self):
+        lines_start_with_number = []
+        with open(pdf_tables_file, 'r') as file:
+            for line in file:
+                # Check if the line is not empty and the first character is a digit
+                if line.strip() and line.strip()[0].isdigit():
+                    lines_start_with_number.append(line.strip())
+                else:
+                    continue
+        with open("cleaned_pdf.txt", "a") as new_file:
+            for files in lines_start_with_number:
+                new_file.write(files)
+        
 
 
-# Usage
+pdf_tables_file = os.path.expanduser("~/Documents/accounting/all_pdf_tables.txt")
 banking = os.path.expanduser("~/Documents/e_banking")
 my_files = PdfOrganizer(banking)
-my_files.all_pdf_tables()
+my_files
+
+
+    # def pdf_to_text(self):
+    #     with open("pdf_text.txt", "a") as pdf_pages:  # Open the output file once, outside the loop
+    #         for pdf in self.full_file_paths:
+    #             with open(pdf, 'rb') as pdf_file:
+    #                 pdf_reader = PyPDF4.PdfFileReader(pdf_file)
+    #                 num_pages = pdf_reader.numPages
+                    
+    #                 for page_num in range(num_pages):
+    #                     page_obj = pdf_reader.getPage(page_num)
+    #                     text = page_obj.extractText()
+    #                     pdf_pages.write(text)  # Write the extracted text to the file
