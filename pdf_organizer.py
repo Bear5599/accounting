@@ -1,4 +1,5 @@
 import os
+import PyPDF4
 
 class PdfOrganizer:
     def __init__(self, folder_path):
@@ -32,6 +33,23 @@ class PdfOrganizer:
             full_path = os.path.join(self.folder_path, file)
             self.full_file_paths.append(full_path)
 
+    def pdf_to_text(self):
+        with open("pdf_text.txt", "a") as pdf_pages:  # Open the output file once, outside the loop
+            for pdf in self.full_file_paths:
+                with open(pdf, 'rb') as pdf_file:
+                    pdf_reader = PyPDF4.PdfFileReader(pdf_file)
+                    num_pages = pdf_reader.numPages
+                    
+                    for page_num in range(num_pages):
+                        page_obj = pdf_reader.getPage(page_num)
+                        text = page_obj.extractText()
+                        pdf_pages.write(text)  # Write the extracted text to the file
+
+                
+
+
+
 # Usage
 banking = os.path.expanduser("~/Documents/e_banking")
 my_files = PdfOrganizer(banking)
+my_files.pdf_to_text()
