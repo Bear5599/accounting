@@ -1,5 +1,7 @@
 import os
 # import PyPDF4
+import csv
+from openpyxl import Workbook
 import tabula
 import warnings
 
@@ -67,19 +69,42 @@ class PdfOrganizer:
             for line in file:
                 # Check if the line is not empty and the first character is a digit
                 if line.strip() and line.strip()[0].isdigit():
-                    lines_start_with_number.append(line.strip())
+                    cleaned_line = line.strip()
+                    # Insert a comma at index 5 of the cleaned_line, assuming the line is long enough
+                    if len(cleaned_line) > 5:
+                        cleaned_line = cleaned_line[:5] + "," + cleaned_line[5:]
+                    lines_start_with_number.append(cleaned_line)
                 else:
                     continue
+
         with open("cleaned_pdf.txt", "a") as new_file:
-            for files in lines_start_with_number:
-                new_file.write(files)
+            for line in lines_start_with_number:
+                new_file.write(line)
+                new_file.write(",\n")
+            
+
+
+    def csv_to_xcell(self):
+        # Create a new workbook and select the active worksheet
+        wb = Workbook()
+        ws = wb.active
+
+        csv_file_path = os.path.expanduser("~/Documents/accounting/cleaned_pdf.txt")
+        with open(csv_file_path, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f, delimiter=',')  # Adjust delimiter if necessary
+            for row in reader:
+                ws.append(row)  # Append each row from the CSV to the worksheet
+
+        # Save the workbook as an Excel file
         
+        wb.save(f"{banking}/e_banking.xlsx")
+
 
 
 pdf_tables_file = os.path.expanduser("~/Documents/accounting/all_pdf_tables.txt")
 banking = os.path.expanduser("~/Documents/e_banking")
 my_files = PdfOrganizer(banking)
-my_files
+my_files.csv_to_xcell()
 
 
     # def pdf_to_text(self):
